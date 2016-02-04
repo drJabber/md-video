@@ -35,7 +35,7 @@ from markdown import Extension
 from markdown.blockprocessors import BlockProcessor
 import logging
 
-__version__ = '0.0.1',
+__version__ = '0.0.2',
 __author__ = 'TylerTemp<tylertempdev@gmail.com>'
 
 logger = logging.getLogger('MARKDOWN.video')
@@ -173,10 +173,13 @@ class VideoProcessor(BlockProcessor):
                     title = None
                 else:
                     href, title = sep
-                    if len(title) >= 2:
-                        quoted = set(title[0] + title[-1])
-                        if len(quoted) == 1 and quoted.pop() in '\'"':
+                    if not title or len(title) < 2:
+                        href = href_mix
+                    else:
+                        if title[0] == title[-1] and title[0] in '\'"':
                             title = title[1:-1]
+                        else:
+                            href = href_mix
 
                 if href.startswith('<') and href.endswith('>'):
                     href = href[1:-1]
@@ -214,11 +217,11 @@ if __name__ == '__main__':
     md = """
 [Video: Title of the Video]
 ![poster](http://link.to.poster/link.png)
-[download.mp4](http://link.to.video/file.mp4)
-[download.ogg](http://link.to.video/file.ogv)
-[download.webm](http://link.to.video/file.webm)
-[subtitle.en-US.vtt](http://link.to.subtitle/en_us.vtt "English")
-[subtitle.zh.vtt](http://link.to.subtitle/zh.vtt "Chinese")
+[download.mp4](http://link.to.video/fil e.mp4)
+[download.ogg](http://link.to.video/fil e.ogv)
+[download.webm](http://link.to.video/fil e.webm)
+[subtitle.en-US.vtt](http://link.to.sub title/en_us.vtt "English")
+[subtitle.zh.vtt](http://link.to.subtit le/zh.vtt "Chinese")
 """
 
     result = markdown.markdown(md, extensions=[makeExtension()])
