@@ -35,7 +35,7 @@ from markdown import Extension
 from markdown.blockprocessors import BlockProcessor
 import logging
 
-__version__ = '0.0.2',
+__version__ = '0.0.3',
 __author__ = 'TylerTemp<tylertempdev@gmail.com>'
 
 logger = logging.getLogger('MARKDOWN.video')
@@ -57,6 +57,10 @@ class VideoProcessor(BlockProcessor):
             r'\[(?P<ref>.*?)\]'
         r')'
     )
+
+    def __init__(self, *a, **k):
+        self._cross_origin = k.pop('cross_origin', None)
+        super(VideoProcessor, self).__init__(*a, **k)
 
     def test(self, parent, block):
         if not self.HEADER_RE.match(block):
@@ -82,6 +86,9 @@ class VideoProcessor(BlockProcessor):
 
         video = etree.SubElement(parent, 'video')
         video.set('controls', 'controls')
+        cross_origin = self._cross_origin
+        if cross_origin is not None:
+            video.set('crossorigin', cross_origin)
         video.text = ('Your browser does not support the '
                       '<code>video</code> element')
 
@@ -197,15 +204,21 @@ class VideoProcessor(BlockProcessor):
 class VideoExtension(Extension):
     """ Add definition lists to Markdown. """
 
+    def __init__(self, **configs):
+        self.config = {'crossorigin':
+                        [configs.get('crossorigin', None), 'cross origin']}
+        super(VideoExtension, self).__init__(**configs)
+
     def extendMarkdown(self, md, md_globals):
         """ Add an instance of DefListProcessor to BlockParser. """
+        cross_origin = self.getConfig('crossorigin', None)
         md.parser.blockprocessors.add('video',
-                                      VideoProcessor(md.parser),
+                                      VideoProcessor(
+                                        md.parser,
+                                        cross_origin=cross_origin),
                                       '>empty')
-def makeExtension(configs=None):
-    if configs is None:
-        configs = {}
-    return VideoExtension(configs=configs)
+def makeExtension(**configs):
+    return VideoExtension(**configs)
 
 
 if __name__ == '__main__':
@@ -224,5 +237,7 @@ if __name__ == '__main__':
 [subtitle.zh.vtt](http://link.to.subtit le/zh.vtt "Chinese")
 """
 
-    result = markdown.markdown(md, extensions=[makeExtension()])
+    result = markdown.markdown(md,
+                               extensions=[
+                                makeExtension(crossorigin="crossorigin")])
     print(result)
