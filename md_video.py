@@ -239,5 +239,5 @@ if __name__ == '__main__':
 
     result = markdown.markdown(md,
                                extensions=[
-                                makeExtension(crossorigin="crossorigin")])
+                                makeExtension(crossorigin="anonymous")])
     print(result)
