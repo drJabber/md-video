@@ -26,10 +26,10 @@ setup(
         ]
     },
     version='0.0.3',
-    author='TylerTemp',
-    author_email='tylertempdev@gmail.com',
-    url='https://github.com/TylerTemp/md-video',
-    download_url='http://github.com/TylerTemp/md-video/zipball/master/',
+    author='dJabber',
+    author_email='dJabber@gmail.com',
+    url='https://github.com/drJabber/md-video',
+    download_url='http://github.com/drJabber/md-video/zipball/addition/',
     license='MIT',
     description='Markdown Video Block',
     keywords='markdown video',
@@ -51,6 +51,8 @@ setup(
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: Implementation :: PyPy',
         ],
 )

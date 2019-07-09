@@ -36,7 +36,7 @@ from markdown.blockprocessors import BlockProcessor
 import logging
 
 __version__ = '0.0.3',
-__author__ = 'TylerTemp<tylertempdev@gmail.com>'
+__author__ = 'dJabber<dJabber@gmail.com>'
 
 logger = logging.getLogger('MARKDOWN.video')
 
@@ -64,7 +64,7 @@ class VideoProcessor(BlockProcessor):
 
     def test(self, parent, block):
         if not self.HEADER_RE.match(block):
-            logger.debug('not matched')
+            logger.debug('not match')
             return False
 
         result = self.result = self.parse(block)
@@ -86,6 +86,10 @@ class VideoProcessor(BlockProcessor):
 
         video = etree.SubElement(parent, 'video')
         video.set('controls', 'controls')
+        video.set('autoplay', 'autoplay')
+        video.set('loop', 'loop')
+        video.set('class','md-video')
+
         cross_origin = self._cross_origin
         if cross_origin is not None:
             video.set('crossorigin', cross_origin)
@@ -129,7 +133,7 @@ class VideoProcessor(BlockProcessor):
                 logger.debug('line %r not in format', line)
                 return None
 
-            logger.debug(result)
+            # logger.debug(result)
 
             name, link, title = result
 
