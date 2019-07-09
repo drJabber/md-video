@@ -29,7 +29,7 @@ setup(
     author='dJabber',
     author_email='dJabber@gmail.com',
     url='https://github.com/drJabber/md-video',
-    download_url='http://github.com/drJabber/md-video/zipball/addition/',
+    download_url='http://github.com/drJabber/md-video/zipball/additions/',
     license='MIT',
     description='Markdown Video Block',
     keywords='markdown video',
